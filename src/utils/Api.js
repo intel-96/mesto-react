@@ -8,7 +8,7 @@ class Api {
   getAllInfo() {
     return Promise.all([this.getUserData(), this.getInitialCards()]);
   }
-  
+
   getInitialCards() {
     return fetch(`${this._url}/v1/${this._groupId}/cards`, {
       headers: this._headers
@@ -18,11 +18,13 @@ class Api {
       })
   }
 
-  addCard(name, link) {
+  addCard(data) {
     return fetch(`${this._url}/v1/${this._groupId}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({ name, link })
+      body: JSON.stringify({ 
+        name: data.name, 
+        link: data.link })
     })
       .then(res => {
         return this._getResponse(res);
@@ -30,7 +32,7 @@ class Api {
   }
 
   removeCard(card) {
-    return fetch(`${this._url}/v1/${this._groupId}/cards/${card._id}`, {
+    return fetch(`${this._url}/v1/${this._groupId}/cards/${card}`, {
       method: 'DELETE',
       headers: this._headers
     })
@@ -40,7 +42,7 @@ class Api {
   }
 
   likeCard(card) {
-    return fetch(`${this._url}/v1/${this._groupId}/cards/likes/${card._id}`, {
+    return fetch(`${this._url}/v1/${this._groupId}/cards/likes/${card}`, {
       method: 'PUT',
       headers: this._headers
     })
@@ -50,13 +52,21 @@ class Api {
   }
 
   removeLike(card) {
-    return fetch(`${this._url}/v1/${this._groupId}/cards/likes/${card._id}`, {
+    return fetch(`${this._url}/v1/${this._groupId}/cards/likes/${card}`, {
       method: 'DELETE',
       headers: this._headers
     })
       .then(res => {
         return this._getResponse(res);
       })
+  }
+
+  changeLikeCardStatus(card, isLiked) {
+    if (!isLiked) {
+      return this.removeLike(card)
+    } else {
+      return this.likeCard(card)
+    }
   }
 
   getUserData() {
@@ -68,13 +78,13 @@ class Api {
       })
   }
 
-  patchUserInfo(name, job) {
+  patchUserInfo(userInfo) {
     return fetch(`${this._url}/v1/${this._groupId}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        about: job
+        name: userInfo.name,
+        about: userInfo.about
       })
     })
       .then(res => {
@@ -82,12 +92,12 @@ class Api {
       })
   }
 
-  patchUserAvatar(avatar) {
+  patchUserAvatar(data) {
     return fetch(`${this._url}/v1/${this._groupId}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar
+        avatar: data.avatar
       })
     })
       .then(res => {
