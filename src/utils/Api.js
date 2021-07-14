@@ -22,9 +22,10 @@ class Api {
     return fetch(`${this._url}/v1/${this._groupId}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({ 
-        name: data.name, 
-        link: data.link })
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
     })
       .then(res => {
         return this._getResponse(res);
