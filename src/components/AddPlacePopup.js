@@ -12,6 +12,8 @@ function AddPlacePopup(props) {
             name: name,
             link: link
         })
+        setName('');
+        setLink('')
     }
 
     function handleChangeCardName(evt) {
@@ -30,21 +32,18 @@ function AddPlacePopup(props) {
             name="addCard"
             title="Новое место"
             buttonText="Создать"
-            children={
-                <>
-                    <label htmlFor="name-image" className="popup__form-label">
-                        <input type="text" className="popup__input popup__input_name" id="name-image" placeholder="Название" name="name" required minLength="2" maxLength="30" 
-                        onChange={handleChangeCardName} value={name || ''}/>
-                        <span id="name-image-error" className="error"></span>
-                    </label>
-                    <label htmlFor="link-image" className="popup__form-label">
-                        <input type="url" className="popup__input popup__input_link" id="link-image" placeholder="Ссылка на картинку" name="link" required 
-                        onChange={handleChangeCardLink} value={link || ''} />
-                        <span id="link-image-error" className="error"></span>
-                    </label>
-                </>
-            }
-        />
+        >
+            <label htmlFor="name-image" className="popup__form-label">
+                <input type="text" className="popup__input popup__input_name" id="name-image" placeholder="Название" name="name" required minLength="2" maxLength="30"
+                    onChange={handleChangeCardName} value={name || ''} />
+                <span id="name-image-error" className="error"></span>
+            </label>
+            <label htmlFor="link-image" className="popup__form-label">
+                <input type="url" className="popup__input popup__input_link" id="link-image" placeholder="Ссылка на картинку" name="link" required
+                    onChange={handleChangeCardLink} value={link || ''} />
+                <span id="link-image-error" className="error"></span>
+            </label>
+        </PopupWithForm>
     )
 }
 
